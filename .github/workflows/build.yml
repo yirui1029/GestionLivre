@@ -35,6 +35,12 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - name: Show current directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
       # =========================
       # TESTS + COVERAGE
       # =========================
