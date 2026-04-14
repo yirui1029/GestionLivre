@@ -40,6 +40,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
+          name: Unit Tests Report
           path: "**/build/test-results/test/*.xml"
           reporter: java-junit
 
