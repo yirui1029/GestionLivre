@@ -3,6 +3,8 @@ plugins {
 	kotlin("plugin.spring") version "2.2.21"
 	id("org.springframework.boot") version "4.0.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("jacoco")
+
 }
 
 group = "com.yirui"
@@ -12,6 +14,11 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+jacoco {
+	toolVersion = "0.8.14"
+
 }
 
 repositories {
@@ -41,4 +48,15 @@ tasks.withType<Test> {
 
 tasks.test {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+	}
 }
