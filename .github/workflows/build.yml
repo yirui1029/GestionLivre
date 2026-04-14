@@ -33,19 +33,18 @@ jobs:
       - name: Build project
         run: ./gradlew build -x test
 
-      #  Lancer les tests
-      - name: Run tests + JaCoCo
-        run: ./gradlew :domain:test :domain:jacocoTestReport
+      - name: Run tests
+        run: ./gradlew test
 
-      #  Publier les résultats de tests
       - name: Publish Test Results
         uses: dorny/test-reporter@v1
-        if: always()   # important même si les tests échouent
+        if: always()
         with:
-          name: Tests Results
-          path: "**/build/test-results/test/*.xml"
+          path: **/build/test-results/test/*.xml
           reporter: java-junit
 
+      - name: Check generated test files
+        run: ls -R **/build/test-results || true
       
       - name: JaCoCo Code Coverage Report
         id: jacoco_reporter
