@@ -45,8 +45,7 @@ jobs:
       # TESTS + COVERAGE
       # =========================
       - name: Run tests + JaCoCo
-        working-directory: domain
-        run: ../gradlew clean test jacocoTestReport
+        run: /gradlew clean test jacocoTestReport
 
       # =========================
       # DEBUG (utile pour toi)
