@@ -33,8 +33,7 @@ jobs:
       - name: Build project
         run: ./gradlew build -x test
 
-      - name: Run tests + coverage
-        working-directory: domain
+      - name: Run tests + JaCoCo
         run: ./gradlew clean test jacocoTestReport
 
       - name: Debug coverage file
@@ -44,9 +43,9 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Unit Tests Report
-          path: "**/build/test-results/test/*.xml"
-          reporter: java-junit
+            name: Unit Tests Report
+            path: "**/build/test-results/test/*.xml"
+            reporter: java-junitt
 
       - name: Check generated test files
         run: ls -R **/build/test-results || true
