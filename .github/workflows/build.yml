@@ -35,7 +35,7 @@ jobs:
 
       #  Lancer les tests
       - name: Run tests + JaCoCo
-        run: ./gradlew clean test jacocoTestReport
+        run: ./gradlew :domain:test :domain:jacocoTestReport
 
       #  Publier les résultats de tests
       - name: Publish Test Results
@@ -43,7 +43,7 @@ jobs:
         if: always()   # important même si les tests échouent
         with:
           name: Tests Results
-          path: build/test-results/test/*.xml
+          path: "**/build/test-results/test/*.xml"
           reporter: java-junit
 
       
