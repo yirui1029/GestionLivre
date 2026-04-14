@@ -11,7 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew build -x test
 
       #  Lancer les tests
-       - name: Run tests + JaCoCo
+      - name: Run tests + JaCoCo
         run: ./gradlew clean test jacocoTestReport
 
       #  Publier les résultats de tests
