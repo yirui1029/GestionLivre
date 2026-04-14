@@ -45,7 +45,7 @@ jobs:
       # TESTS + COVERAGE
       # =========================
       - name: Run tests + JaCoCo
-        run: ./gradlew clean test jacocoTestReport
+        run: ./gradlew test jacocoTestReport
 
       # =========================
       # DEBUG (utile pour toi)
