@@ -33,11 +33,11 @@ jobs:
       - name: Build project
         run: ./gradlew build -x test
 
-      - name: Run tests
-        run: ./gradlew test
+      - name: Run tests + coverage
+        run: ./gradlew clean test jacocoTestReport
 
-      - name: Run tests + JaCoCo
-        run: ./gradlew :domain:test :domain:jacocoTestReport
+      - name: Debug coverage file
+        run: find . -name jacocoTestReport.xml
 
       - name: Publish Test Results
         uses: dorny/test-reporter@v1
@@ -50,18 +50,10 @@ jobs:
       - name: Check generated test files
         run: ls -R **/build/test-results || true
       
-      - name: JaCoCo Code Coverage Report
-        id: jacoco_reporter
+      - name: JaCoCo Report
         uses: PavanMudigonda/jacoco-reporter@v5.1
         with:
           coverage_results_path: "**/build/reports/jacoco/test/jacocoTestReport.xml"
-          coverage_report_name: Coverage
-          coverage_report_title: JaCoCo
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_check_run: false
-          minimum_coverage: 80
-          fail_below_threshold: false
-          publish_only_summary: false
 
       - name: Add Jacoco report to summary
         run: |
