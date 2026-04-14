@@ -36,6 +36,9 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
+      - name: Run tests + coverage
+        run: ./gradlew clean test jacocoTestReport
+
       - name: Publish Test Results
         uses: dorny/test-reporter@v1
         if: always()
@@ -51,7 +54,7 @@ jobs:
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v5.1
         with:
-          coverage_results_path: build/reports/jacoco/test/jacocoTestReport.xml
+          coverage_results_path: "**/build/reports/jacoco/test/jacocoTestReport.xml"
           coverage_report_name: Coverage
           coverage_report_title: JaCoCo
           github_token: ${{ secrets.GITHUB_TOKEN }}
