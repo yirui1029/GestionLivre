@@ -29,12 +29,20 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      - name: Locate project
+        run: pwd && ls
+
       # Build (sans tests)
       - name: Build project
         run: ./gradlew build -x test
 
       - name: Run tests + JaCoCo
         run: ./gradlew clean test jacocoTestReport
+
+      - name: Run tests + JaCoCo
+        run: |
+         cd .
+         ./gradlew clean test jacocoTestReport
 
       - name: Debug coverage file
         run: find . -name jacocoTestReport.xml
