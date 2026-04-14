@@ -34,6 +34,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Run tests + coverage
+        working-directory: domain
         run: ./gradlew clean test jacocoTestReport
 
       - name: Debug coverage file
