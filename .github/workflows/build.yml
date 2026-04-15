@@ -47,6 +47,23 @@ jobs:
       - name: Run tests + JaCoCo
         run: ./gradlew test jacocoTestReport
 
+
+  # =========================
+  # TESTS + COVERAGE
+  # =========================
+      - name: Run tests + JaCoCo
+        run: ./gradlew test testIntegration jacocoTestReport  # ← ajouter testIntegration
+
+  # =========================
+  # TEST REPORT (JUnit)
+  # =========================
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Unit Tests Report
+          path: "**/build/test-results/test/*.xml,**/build/test-results/testIntegration/*.xml"  # ← ajouter
+          reporter: java-junit
       # =========================
       # DEBUG (utile pour toi)
       # =========================

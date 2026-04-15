@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.yirui.infrastructure.driving.controller.dto.BookDTO
 import com.yirui.domain.usecase.BookService
 import com.yirui.domain.model.Book
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import io.mockk.every
 import io.mockk.verify
 import com.ninjasquad.springmockk.MockkBean
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@WebMvcTest(BookController::class)
+@WebMvcTest(controllers = [BookController::class])
 class TestIntegrationControllerBook {
 
     @Autowired
@@ -36,6 +37,7 @@ class TestIntegrationControllerBook {
 
         mockMvc.perform(get("/books"))
             .andExpect(status().isOk)
+            .andDo(print())
             .andExpect(jsonPath("$[0].title").value("Clean Code"))
             .andExpect(jsonPath("$[0].author").value("Robert Martin"))
 
@@ -54,6 +56,7 @@ class TestIntegrationControllerBook {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto))
         )
+            .andDo(print())
             .andExpect(status().isCreated)
 
         verify { bookService.addBook(any()) }
@@ -69,6 +72,8 @@ class TestIntegrationControllerBook {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto))
         )
+
+            .andDo(print())
             .andExpect(status().isBadRequest)
     }
 }

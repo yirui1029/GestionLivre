@@ -53,12 +53,20 @@ tasks.withType<Test> {
 }
 
 tasks.jacocoTestReport {
-	dependsOn(tasks.test)
+	dependsOn(tasks.test, tasks.named("testIntegration")) // ← ajouter testIntegration
+
+	executionData.setFrom(
+		fileTree(layout.buildDirectory).include(
+			"jacoco/test.exec",
+			"jacoco/testIntegration.exec" // ← ajouter
+		)
+	)
+
 	reports {
 		xml.required.set(true)
 		html.required.set(true)
-	}
-}
+	}}
+
 
 testing {
 	suites {
@@ -69,6 +77,7 @@ testing {
 				implementation(project())
 				implementation("org.springframework.boot:spring-boot-starter-web")
 				implementation("org.springframework.boot:spring-boot-starter-test")
+				implementation("org.springframework.boot:spring-boot-starter-validation")
 				implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // ADD
 				implementation("com.ninja-squad:springmockk:5.0.1")
 			}

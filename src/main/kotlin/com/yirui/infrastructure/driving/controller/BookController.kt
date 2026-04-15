@@ -4,6 +4,8 @@ import com.yirui.domain.usecase.BookService
 import org.springframework.web.bind.annotation.*
 import com.yirui.infrastructure.driving.controller.dto.BookDTO
 import org.springframework.http.HttpStatus
+import jakarta.validation.Valid
+
 
 
 @RestController
@@ -21,7 +23,7 @@ class BookController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addBook(@RequestBody dto: BookDTO) {
+    fun addBook(@RequestBody @Valid dto: BookDTO) {
         bookService.addBook(
             Book(dto.title, dto.author)
         )
