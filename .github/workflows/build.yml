@@ -45,15 +45,7 @@ jobs:
       # TESTS + COVERAGE
       # =========================
       - name: Run tests + JaCoCo
-        run: ./gradlew test jacocoTestReport
-
-
-  # =========================
-  # TESTS + COVERAGE
-  # =========================
-      - name: Run tests + JaCoCo
-        run: ./gradlew test testIntegration jacocoTestReport  # ← ajouter testIntegration
-
+        run: ./gradlew test testIntegration jacocoTestReport
   # =========================
   # TEST REPORT (JUnit)
   # =========================
