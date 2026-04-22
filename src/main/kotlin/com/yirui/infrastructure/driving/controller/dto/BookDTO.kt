@@ -7,5 +7,7 @@ data class BookDTO(
     val title: String,
 
     @field:NotBlank
-    val author: String
+    val author: String,
+    // ajouter la variable reserved sur DTO
+    val reserved: Boolean = false
 )

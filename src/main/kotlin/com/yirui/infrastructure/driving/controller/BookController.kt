@@ -17,7 +17,11 @@ class BookController(
     @GetMapping
     fun getBooks(): List<BookDTO> {
         return bookService.getAllBooks().map {
-            BookDTO(it.title, it.author)
+            BookDTO(
+                title =it.title,
+                author=it.author,
+                reserved=it.reserved
+            )
         }
     }
 
@@ -27,5 +31,11 @@ class BookController(
         bookService.addBook(
             Book(dto.title, dto.author)
         )
+    }
+    // ajouter mapping reserve pour patch quand un livre a ete reservé
+    @PatchMapping("/reserve")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun reserveBook(@RequestBody dto: BookDTO) {
+        bookService.reserveBook(dto.title, dto.author)
     }
 }

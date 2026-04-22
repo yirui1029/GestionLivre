@@ -76,4 +76,46 @@ class TestIntegrationControllerBook {
             .andDo(print())
             .andExpect(status().isBadRequest)
     }
+
+    @Test
+    fun `PATCH reserve should reserve a book`() {
+
+        val dto = BookDTO("Clean Code", "Robert Martin", false)
+
+        every {
+            bookService.reserveBook("Clean Code", "Robert Martin")
+        } returns Book("Clean Code", "Robert Martin", true)
+
+        mockMvc.perform(
+            patch("/books/reserve")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto))
+        )
+            .andDo(print())
+            .andExpect(status().isNoContent)
+
+        verify {
+            bookService.reserveBook("Clean Code", "Robert Martin")
+        }
+    }
+
+
+    @Test
+    fun `PATCH reserve should fail if already reserved`() {
+
+        val dto = BookDTO("Clean Code", "Robert Martin", false)
+
+        every {
+            bookService.reserveBook("Clean Code", "Robert Martin")
+        } throws IllegalArgumentException("Book already reserved")
+
+        mockMvc.perform(
+            patch("/books/reserve")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto))
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
 }
+

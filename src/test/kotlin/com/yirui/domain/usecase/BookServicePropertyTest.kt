@@ -14,6 +14,9 @@ class BookServicePropertyTest : FunSpec({
     class FakeBookRepository(private val books: List<Book>) : BookRepository {
         override fun save(book: Book) {}
         override fun findAll(): List<Book> = books
+        override fun findByTitleAndAuthor(title: String, author: String): Book? {
+            return books.find { it.title == title && it.author == author }
+        }
     }
 
     //  PROPERTY 1 : sorting correct
