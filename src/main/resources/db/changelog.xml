@@ -6,6 +6,14 @@
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <include file="db/changelogs/001_init.xml"/>
-    <include file="db/changelogs/20260417120000_add_reserved_column.xml"/>
+    <!-- ========================= -->
+    <!-- INIT DATABASE STRUCTURE   -->
+    <!-- ========================= -->
+    <include file="db/changelogs/001_create_book.xml"/>
+
+    <!-- ========================= -->
+    <!-- EVOLUTION : BOOK TABLE    -->
+    <!-- ========================= -->
+    <include file="db/changelogs/002_add_reserved_column.xml"/>
+
 </databaseChangeLog>

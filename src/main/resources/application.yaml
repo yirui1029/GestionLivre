@@ -11,5 +11,4 @@ spring:
 
   liquibase:
     enabled: true
-
-    change-log: db/changelog.xml
+    change-log: classpath:db/changelog.xml

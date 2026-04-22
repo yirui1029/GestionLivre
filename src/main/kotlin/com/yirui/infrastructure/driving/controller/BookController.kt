@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*
 import com.yirui.infrastructure.driving.controller.dto.BookDTO
 import org.springframework.http.HttpStatus
 import jakarta.validation.Valid
-
+import org.springframework.http.ResponseEntity
 
 
 @RestController
@@ -37,5 +37,11 @@ class BookController(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun reserveBook(@RequestBody dto: BookDTO) {
         bookService.reserveBook(dto.title, dto.author)
+    }
+
+    // Gestion des erreurs métier → HTTP 400
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgument(e: IllegalArgumentException): ResponseEntity<String> {
+        return ResponseEntity.badRequest().body(e.message)
     }
 }

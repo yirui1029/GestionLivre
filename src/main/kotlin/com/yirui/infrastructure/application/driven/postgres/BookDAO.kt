@@ -24,7 +24,7 @@ class BookDAO(
 
     fun findAll(): List<Book> {
         return jdbc.query(
-            "SELECT title, author FROM book"
+            "SELECT title, author, reserved FROM book"
         ) { rs, _ ->
             Book(
                 title = rs.getString("title"),
@@ -52,4 +52,3 @@ class BookDAO(
 }
 
 
-}

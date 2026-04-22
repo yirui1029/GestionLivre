@@ -20,6 +20,10 @@ class BookServiceTest :FunSpec({
         override fun findAll(): List<Book> {
             return books
         }
+        override fun findByTitleAndAuthor(title: String, author: String): Book? {
+            return books.find { it.title == title && it.author == author }
+        }
+
     }
     // test sur function add book avec boolean pour tester
     test("should call repository when adding book") {

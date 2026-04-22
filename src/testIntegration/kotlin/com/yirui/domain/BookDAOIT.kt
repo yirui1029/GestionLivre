@@ -1,7 +1,7 @@
 package com.yirui
 
 import com.yirui.domain.model.Book
-import com.yirui.infrastructure.driven.postgres.BookDAO
+import com.yirui.infrastructure.application.driven.postgres.BookDAO
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.extensions.spring.SpringExtension
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,6 +42,20 @@ class BookDAOIT : FunSpec() {
             bookDAO.save(Book("DDD", "Eric Evans"))
             val result = bookDAO.findAll()
             assert(result.size == 2)
+        }
+
+        test("should reserve a book") {
+            bookDAO.save(Book("Clean Code", "Robert Martin"))
+            val reserved = bookDAO.reserveBook("Clean Code", "Robert Martin")
+            assert(reserved)
+            val result = bookDAO.findAll()
+            assert(result.first().reserved)
+        }
+
+        test("should not reserve already reserved book") {
+            bookDAO.save(Book("Clean Code", "Robert Martin", reserved = true))
+            val reserved = bookDAO.reserveBook("Clean Code", "Robert Martin")
+            assert(!reserved)
         }
     }
 }
