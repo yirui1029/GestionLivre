@@ -1,4 +1,4 @@
-#  Book API – Tests Unitaires, Intégration & Composants
+#  Gestion des livres – Tests Unitaires, Intégration & Composants
 
 ##  Objectif du projet
 
