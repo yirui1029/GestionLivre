@@ -49,6 +49,16 @@ class BookDAO(
             )
         ) == 1
     }
+    fun updateReserved(book: Book): Int {
+        return jdbc.update(
+            "UPDATE book SET reserved = :reserved WHERE title = :title AND author = :author",
+            mapOf(
+                "title" to book.title,
+                "author" to book.author,
+                "reserved" to book.reserved
+            )
+        )
+    }
 }
 
 

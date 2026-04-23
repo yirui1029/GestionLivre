@@ -39,9 +39,19 @@ class BookController(
         bookService.reserveBook(dto.title, dto.author)
     }
 
-    // Gestion des erreurs métier → HTTP 400
+
+    @PatchMapping("/return")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun returnBook(
+        @RequestParam title: String,
+        @RequestParam author: String
+    ) {
+        bookService.returnBook(title, author)
+    }
+
     @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgument(e: IllegalArgumentException): ResponseEntity<String> {
+    fun handleIllegal(e: IllegalArgumentException): ResponseEntity<String> {
         return ResponseEntity.badRequest().body(e.message)
     }
+
 }

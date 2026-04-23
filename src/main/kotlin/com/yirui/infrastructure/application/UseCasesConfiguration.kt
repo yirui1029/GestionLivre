@@ -17,7 +17,9 @@ class UseCasesConfiguration {
             private val books = mutableListOf<Book>()
 
             override fun save(book: Book) {
-
+                books.removeIf {
+                    it.title == book.title && it.author == book.author
+                }
                 books.add(book)
             }
 

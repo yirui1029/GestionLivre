@@ -34,4 +34,19 @@ class BookService(
     }
 
 
+    fun returnBook(title: String, author: String): Book {
+
+        val book = bookRepository.findByTitleAndAuthor(title, author)
+            ?: throw IllegalArgumentException("Livre introuvable")
+
+        require(book.reserved) { "Le livre n'est pas réservé" }
+
+        val returnedBook = book.copy(reserved = false)
+
+        bookRepository.save(returnedBook)
+
+        return returnedBook
+    }
+
+
 }

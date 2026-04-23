@@ -45,23 +45,7 @@ jobs:
       # TESTS + COVERAGE
       # =========================
       - name: Run tests + JaCoCo
-        run: ./gradlew test testIntegration jacocoTestReport
-  # =========================
-  # TEST REPORT (JUnit)
-  # =========================
-      - name: Publish Test Results
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Unit Tests Report
-          path: "**/build/test-results/test/*.xml,**/build/test-results/testIntegration/*.xml"  # ← ajouter
-          reporter: java-junit
-      # =========================
-      # DEBUG (utile pour toi)
-      # =========================
-      - name: Show test results
-        if: always()
-        run: find . -name "*.xml"
+        run: ./gradlew test testIntegration testComponent jacocoTestReport  # ✅ ajout testComponent
 
       # =========================
       # TEST REPORT (JUnit)
@@ -71,8 +55,18 @@ jobs:
         if: always()
         with:
           name: Unit Tests Report
-          path: "**/build/test-results/test/*.xml"
+          path: |
+            **/build/test-results/test/*.xml
+            **/build/test-results/testIntegration/*.xml
+            **/build/test-results/testComponent/*.xml  # ✅ ajout testComponent
           reporter: java-junit
+
+      # =========================
+      # DEBUG
+      # =========================
+      - name: Show test results
+        if: always()
+        run: find . -name "*.xml"
 
       - name: Show Jacoco files
         run: ls -R build/reports/jacoco

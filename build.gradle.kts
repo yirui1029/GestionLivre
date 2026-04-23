@@ -53,7 +53,6 @@ dependencies {
 	testImplementation("io.kotest:kotest-assertions-core:5.9.1")
 	testImplementation("io.kotest:kotest-property:5.9.1")
 
-
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.testcontainers:postgresql:1.19.1")
 	testImplementation("org.testcontainers:junit-jupiter:1.19.1")
@@ -65,12 +64,17 @@ tasks.withType<Test> {
 }
 
 tasks.jacocoTestReport {
-	dependsOn(tasks.test, tasks.named("testIntegration"))
+	dependsOn(
+		tasks.test,
+		tasks.named("testIntegration"),
+		tasks.named("testComponent")
+	)
 
 	executionData.setFrom(
 		fileTree(layout.buildDirectory).include(
 			"jacoco/test.exec",
-			"jacoco/testIntegration.exec"
+			"jacoco/testIntegration.exec",
+			"jacoco/testComponent.exec"
 		)
 	)
 
@@ -90,7 +94,7 @@ kotlin {
 }
 
 //
-// 🔥 TEST INTEGRATION CLEAN
+// 🔥 TEST SUITES
 //
 testing {
 	suites {
@@ -108,7 +112,7 @@ testing {
 				implementation("org.springframework.boot:spring-boot-starter-web")
 				implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
-				// Jackson (IMPORTANT pour ObjectMapper)
+				// Jackson
 				implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 				// Testcontainers
@@ -120,7 +124,7 @@ testing {
 				implementation("io.kotest:kotest-assertions-core:5.9.1")
 				implementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
 
-				// Mock optional
+				// Mock
 				implementation("com.ninja-squad:springmockk:5.0.1")
 				implementation("com.h2database:h2")
 			}
@@ -131,6 +135,48 @@ testing {
 				}
 				resources {
 					setSrcDirs(listOf("src/testIntegration/resources"))
+				}
+			}
+		}
+
+		val testComponent by registering(JvmTestSuite::class) {
+
+			useJUnitJupiter()
+
+			dependencies {
+
+				implementation(project())
+
+				// Spring Test
+				implementation("org.springframework.boot:spring-boot-starter-test")
+				implementation("org.springframework.boot:spring-boot-starter-web")
+				implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+				// Jackson
+				implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+				// Cucumber
+				implementation("io.cucumber:cucumber-java:7.18.0")
+				implementation("io.cucumber:cucumber-spring:7.18.0")
+				implementation("io.cucumber:cucumber-junit-platform-engine:7.18.0")
+				implementation("org.junit.platform:junit-platform-suite:1.10.0")
+
+				// Mock
+				implementation("com.ninja-squad:springmockk:5.0.1")
+				implementation("com.h2database:h2")
+				// RestAssured
+				implementation("io.rest-assured:rest-assured:5.4.0")
+				implementation("io.rest-assured:kotlin-extensions:5.4.0")
+				implementation("io.kotest:kotest-runner-junit5:5.9.1")
+				implementation("io.kotest:kotest-assertions-core:5.9.1")
+			}
+
+			sources {
+				kotlin {
+					setSrcDirs(listOf("src/testComponent/kotlin"))
+				}
+				resources {
+					setSrcDirs(listOf("src/testComponent/resources"))
 				}
 			}
 		}
