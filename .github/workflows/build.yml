@@ -55,10 +55,7 @@ jobs:
         if: always()
         with:
           name: Test Report
-          path: |
-            **/build/test-results/test/*.xml
-            **/build/test-results/testIntegration/*.xml
-            **/build/test-results/testComponent/*.xml
+          path: '**/build/test-results/**/*.xml'
           reporter: java-junit
       # =========================
       # DEBUG
