@@ -54,13 +54,12 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Unit Tests Report
+          name: Test Report
           path: |
             **/build/test-results/test/*.xml
             **/build/test-results/testIntegration/*.xml
-            **/build/test-results/testComponent/*.xml  # ✅ ajout testComponent
+            **/build/test-results/testComponent/*.xml
           reporter: java-junit
-
       # =========================
       # DEBUG
       # =========================
